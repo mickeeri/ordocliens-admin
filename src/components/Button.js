@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import styledProps from 'styled-props';
 
@@ -8,6 +7,7 @@ const background = {
     danger: '#DD2C00',
     success: '#00C281',
     info: '#BBDEFB',
+    link: '#FFFFFF',
   },
   hover: {
     primary: '#F5F5F5',
@@ -18,8 +18,13 @@ const background = {
 };
 
 const color = {
-  primary: '#263238',
-  default: '#FAFAFA',
+  default: {
+    primary: '#263238',
+    default: '#FAFAFA',
+  },
+  hover: {
+    link: '#454242',
+  },
 };
 
 const size = {
@@ -37,13 +42,19 @@ const Button = styled.button`
   margin: 20px 0;
   background: ${styledProps(background.default)};
   border: 0;
-  color: ${styledProps(color)};
-  padding: ${styledProps(size.padding)}px;
+  color: ${styledProps(color.default)};
+  height: 36px;
   border-radius: ${styledProps(size.borderRadius)}px;
   cursor: pointer;
+  font-size: 14px;
 
   &:hover {
     background: ${styledProps(background.hover)};
+    color: ${styledProps(color.hover)};
+  }
+
+  .spinner {
+    margin-left: 10px;
   }
 `;
 

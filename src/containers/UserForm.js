@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import Input from '../components/forms/Input';
-import FormGroup from '../components/forms/FormGroup';
+import InputGroup from '../components/forms/InputGroup';
 import Button from '../components/Button';
+import FormWrapper from '../components/forms/FormWrapper';
 
 class UserForm extends Component {
   render() {
     return (
-      <div className="UserForm">
+      <FormWrapper className="UserForm">
         <h2>Lägg till ny användare</h2>
 
-        <form>
-          <FormGroup>
-            <Input name="firstName" type="text" placeholder="Ange förnamn" />
-          </FormGroup>
+        <InputGroup
+          name="firstName"
+          placeholder="Ange förnamn"
+          label="Förnamn"
+        />
 
-          <FormGroup>
-            <Input name="lastName" type="text" placeholder="Ange efternamn" />
-          </FormGroup>
+        <InputGroup
+          name="lastName"
+          placeholder="Ange efternamn"
+          label="Efternamn"
+        />
 
-          <Button success medium default>
-            Spara användare
-          </Button>
-        </form>
-      </div>
+        <Button success medium default>
+          Spara användare
+        </Button>
+      </FormWrapper>
     );
   }
 }
