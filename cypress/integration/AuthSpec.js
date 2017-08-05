@@ -7,7 +7,7 @@ function signin() {
   });
 }
 
-describe('Login page', () => {
+describe('Auth', () => {
   beforeEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
@@ -65,6 +65,21 @@ describe('Login page', () => {
       cy.get('header').contains('Ordocliens Admin').click();
       cy.location('pathname').should('be', '/');
       cy.get('.Dashboard');
+    });
+  });
+
+  describe('Reloading page', () => {
+    it('when signed out still show login form', () => {
+      cy.reload();
+      cy.location('pathname').should('be', 'login');
+      cy.get('main').contains('Logga in');
+    });
+
+    it('when signed in should redirect to dashboard', () => {
+      signin();
+      cy.get('.Dashboard').contains('This is the dashboard');
+      cy.reload();
+      cy.get('.Dashboard').contains('This is the dashboard');
     });
   });
 });

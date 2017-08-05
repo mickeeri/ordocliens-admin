@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FlexContainer from '../components/FlexContainer';
 import Card from '../components/Card';
 import SignInForm from './SignInForm';

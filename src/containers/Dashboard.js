@@ -1,18 +1,48 @@
 import React, { Component } from 'react';
 import UserList from '../components/UserList';
-import UserForm from './UserForm';
-import { fetchUsers } from '../services/api';
+import { fetchUsers, fetchFirms } from '../services/api';
+import Card from '../components/Card';
+import CardLoader from '../components/CardLoader';
+import FlexContainer from '../components/FlexContainer';
+import PageHeader from '../components/PageHeader';
 
-export default class Dasboard extends Component {
+export default class Dashboard extends Component {
+  state = {
+    firms: {},
+    users: {},
+    isFetching: false,
+  };
+
   componentDidMount() {
-    fetchUsers();
+    this.makeIntialRequest();
+  }
+
+  async makeIntialRequest() {
+    this.setState({ isFetching: true });
+    try {
+      const users = await fetchUsers();
+      const firms = await fetchFirms();
+      this.setState({ firms, users, isFetching: false });
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   render() {
+    const { isFetching, firms, users } = this.state;
+
     return (
-      <div className="Dashboard">
-        <h2>This is the dashboard</h2>
-      </div>
+      <FlexContainer className="Dashboard">
+        <PageHeader>
+          <h1>Dashboard</h1>
+        </PageHeader>
+        <Card>
+          {isFetching
+            ? <CardLoader />
+            : <UserList firms={firms} users={users} />}
+        </Card>
+        <Card />
+      </FlexContainer>
     );
   }
 }

@@ -3,7 +3,6 @@ import { func } from 'prop-types';
 import InputGroup from '../components/forms/InputGroup';
 import Button from '../components/Button';
 import FormWrapper from '../components/forms/FormWrapper';
-import SelectGroup from '../components/forms/SelectGroup';
 import Alert from '../components/Alert';
 import MDSpinner from 'react-md-spinner';
 
