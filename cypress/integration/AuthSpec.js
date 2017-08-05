@@ -30,7 +30,7 @@ describe('Auth', () => {
     });
 
     it('shows the dahboard after successful login', () => {
-      cy.get('.Dashboard').contains('This is the dashboard');
+      cy.get('.Dashboard').contains('Dashboard');
     });
 
     it('should show logout button in top navbar', () => {
@@ -77,9 +77,9 @@ describe('Auth', () => {
 
     it('when signed in should redirect to dashboard', () => {
       signin();
-      cy.get('.Dashboard').contains('This is the dashboard');
+      cy.get('.Dashboard').contains('Dashboard');
       cy.reload();
-      cy.get('.Dashboard').contains('This is the dashboard');
+      cy.get('.Dashboard').contains('Dashboard');
     });
   });
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import FlexContainer from '../components/FlexContainer';
 import Card from '../components/Card';
 import SignInForm from './SignInForm';
-import CardLoader from '../components/CardLoader';
 import auth from '../services/auth';
 import { Redirect } from 'react-router-dom';
 
@@ -58,15 +57,13 @@ class SignIn extends React.Component {
     }
 
     return (
-      <FlexContainer>
-        <Card>
-          {isAuthenticating
-            ? <CardLoader text="Autentiserar" />
-            : <SignInForm
-                onSubmit={this.signIn.bind(this)}
-                errorMessage={errorMessage}
-                isSubmitting={isSubmitting}
-              />}
+      <FlexContainer center>
+        <Card showLoader={isAuthenticating} loaderText="Autentiserar">
+          <SignInForm
+            onSubmit={this.signIn.bind(this)}
+            errorMessage={errorMessage}
+            isSubmitting={isSubmitting}
+          />
         </Card>
       </FlexContainer>
     );

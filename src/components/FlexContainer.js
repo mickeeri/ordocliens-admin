@@ -1,7 +1,13 @@
 import styled from 'styled-components';
+import styledProps from 'styled-props';
+
+const justify = {
+  center: 'center',
+  between: 'space-between',
+};
 
 const FlexContainer = styled.div`
-  justify-content: center;
+  justify-content: ${styledProps(justify)};
   display: flex;
   flex-wrap: wrap;
   width: 50%;

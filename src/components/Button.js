@@ -3,14 +3,14 @@ import styledProps from 'styled-props';
 
 const background = {
   default: {
-    primary: '#F5F5F5',
+    primary: '#4fc3f7',
     danger: '#DD2C00',
     success: '#00C281',
     info: '#BBDEFB',
     link: '#FFFFFF',
   },
   hover: {
-    primary: '#F5F5F5',
+    primary: '#6ecbf5',
     danger: '#DD2C00',
     success: '#01D48D',
     info: '#BBDEFB',
@@ -19,7 +19,7 @@ const background = {
 
 const color = {
   default: {
-    primary: '#263238',
+    primary: '#FAFAFA',
     default: '#FAFAFA',
   },
   hover: {

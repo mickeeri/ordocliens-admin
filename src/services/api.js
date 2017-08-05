@@ -1,9 +1,10 @@
 import { camelizeKeys, decamelizeKeys } from 'humps';
 import { getAuthToken } from '../utils/localStorage';
-import { normalize } from 'normalizr';
-import * as schemas from './schemas';
 
-const BASE_URL = 'http://localhost:3090';
+export const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://ordocliens.herokuapp.com'
+    : 'http://localhost:3090';
 
 async function makeFetchRequest({
   path,
@@ -11,7 +12,7 @@ async function makeFetchRequest({
   adminApi = true,
   body,
   authToken = getAuthToken(),
-  schema,
+  entityName,
 }) {
   const url = adminApi ? `${BASE_URL}/admin/${path}` : `${BASE_URL}/v1/${path}`;
 
@@ -33,14 +34,8 @@ async function makeFetchRequest({
 
   const camelizedResponse = await camelizeKeys(responseBody);
 
-  // Normalize response
-  if (schema) {
-    const normalizedResponse = await normalize(camelizedResponse[path], schema);
-
-    return {
-      all: normalizedResponse.entities[path],
-      ids: normalizedResponse.result,
-    };
+  if (entityName) {
+    return camelizedResponse[entityName];
   }
 
   return camelizedResponse;
@@ -49,14 +44,21 @@ async function makeFetchRequest({
 export async function fetchUsers() {
   return await makeFetchRequest({
     path: 'users',
-    schema: schemas.arrayOfUsers,
+    entityName: 'users',
+  });
+}
+
+export async function fetchUser(userId) {
+  return await makeFetchRequest({
+    path: `users/${userId}`,
+    entityName: 'user',
   });
 }
 
 export async function fetchFirms() {
   return await makeFetchRequest({
     path: 'firms',
-    schema: schemas.arrayOfFirms,
+    entityName: 'firms',
   });
 }
 
