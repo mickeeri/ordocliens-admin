@@ -42,7 +42,9 @@ export default class Dashboard extends Component {
         </PageHeader>
         <Card showLoader={isFetching} loaderText="Hämtar användare">
           {errorMessage
-            ? <Alert tryAgainFunc={this.makeIntialRequest.bind(this)} />
+            ? <Alert tryAgainFunc={this.makeIntialRequest.bind(this)}>
+                {errorMessage}
+              </Alert>
             : firms.length && <UserList firms={firms} />}
         </Card>
       </FlexContainer>
