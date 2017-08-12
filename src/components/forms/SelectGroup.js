@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, arrayOf, string, number } from 'prop-types';
+import { shape, arrayOf, string, number, func } from 'prop-types';
 import styled from 'styled-components';
 import Label from './Label';
 
@@ -10,6 +10,7 @@ const Select = styled.select`
   width: 100%;
   border: 1px solid grey;
   border-radius: 2px;
+  background: white;
 `;
 
 const Option = styled.option`
@@ -17,15 +18,24 @@ const Option = styled.option`
   padding: 8px;
 `;
 
-const InputGroup = ({ name, label, options }) => {
-  console.log(options);
-
+const SelectGroup = ({
+  name,
+  label,
+  options,
+  value,
+  defaultName,
+  onChange,
+}) => {
   return (
     <Wrapper>
       <Label htmlFor={name}>
         {label}
       </Label>
-      <Select name={name} id={name}>
+      <Select name={name} id={name} value={value} onChange={onChange}>
+        {defaultName &&
+          <option value="0" disabled>
+            {defaultName}
+          </option>}
         {options.map(option =>
           <Option key={option.id} value={option.id}>
             {option.name}
@@ -36,9 +46,12 @@ const InputGroup = ({ name, label, options }) => {
   );
 };
 
-InputGroup.propTypes = {
+SelectGroup.propTypes = {
   name: string.isRequired,
   label: string,
+  value: number.isRequired,
+  onChange: func.isRequired,
+  defaultName: string,
   options: arrayOf(
     shape({
       id: number.isRequired,
@@ -47,4 +60,4 @@ InputGroup.propTypes = {
   ).isRequired,
 };
 
-export default InputGroup;
+export default SelectGroup;

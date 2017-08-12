@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Dashboard from './containers/Dashboard';
 import SignIn from './containers/SignIn';
 import UserDetails from './containers/UserDetails';
+import UsersAdd from './containers/UsersAdd';
 import {
   BrowserRouter as Router,
   Route,
@@ -66,6 +67,7 @@ class App extends Component {
             <Main>
               <Route exact path="/login" component={SignIn} />
               <PrivateRoute exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/add-user" component={UsersAdd} />
               <PrivateRoute path="/users/:id" component={UserDetails} />
             </Main>
           </div>

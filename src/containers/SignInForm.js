@@ -7,15 +7,12 @@ import Alert from '../components/Alert';
 import MDSpinner from 'react-md-spinner';
 
 class SignInForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fields: {
-        email: '',
-        password: '',
-      },
-    };
-  }
+  state = {
+    fields: {
+      email: '',
+      password: '',
+    },
+  };
 
   handleChange = event => {
     const { name, value } = event.target;

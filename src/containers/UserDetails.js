@@ -4,6 +4,7 @@ import Card from '../components/Card';
 import { fetchUser } from '../services/api';
 import Alert from '../components/Alert';
 import { Link } from 'react-router-dom';
+import RedirectBackWrapper from '../components/RedirectBackWrapper';
 
 import format from 'date-fns/format';
 import styled from 'styled-components';
@@ -11,11 +12,6 @@ import styled from 'styled-components';
 const UserInfoListHeader = styled.div`display: flex;`;
 const UserInfoList = styled.ul``;
 const ListItem = styled.li`margin: 10px 0;`;
-
-const RedirectBackWrapper = styled.div`
-  flex-basis: 100%;
-  margin-top: 15px;
-`;
 
 const UserInfo = ({
   user: {

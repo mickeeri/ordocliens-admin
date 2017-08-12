@@ -54,7 +54,7 @@ const Button = styled.button`
   }
 
   .spinner {
-    margin-left: 10px;
+    margin-right: 10px;
   }
 `;
 

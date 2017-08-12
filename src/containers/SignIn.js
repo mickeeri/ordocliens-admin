@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import FlexContainer from '../components/FlexContainer';
 import Card from '../components/Card';
 import SignInForm from './SignInForm';
 import auth from '../services/auth';
 import { Redirect } from 'react-router-dom';
 
-class SignIn extends React.Component {
+class SignIn extends Component {
   state = {
     redirectToReferrer: false,
     errorMessage: '',

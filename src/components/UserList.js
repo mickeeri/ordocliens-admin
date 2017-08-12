@@ -1,33 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
 import { shape, arrayOf, number, string } from 'prop-types';
+import {
+  List,
+  ListItem,
+  ListItemHeader,
+  ListItemContent,
+} from '../components/List';
 import { Link } from 'react-router-dom';
-
-const List = styled.ul``;
-
-const ListItem = styled.li`
-  margin: 10px 0;
-  background: #f9f5f5;
-  padding: 10px;
-  border-radius: 3px;
-  border: 1px solid #eee;
-`;
-
-const ListItemHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ListItemContent = styled.div`
-  font-size: 14px;
-  margin: 5px 0;
-  display: flex;
-  justify-content: space-between;
-
-  a {
-    font-size: 14px;
-  }
-`;
+import FlexWrapper from '../components/FlexWrapper';
 
 const UserList = ({ firms }) => {
   return (
@@ -59,6 +39,9 @@ const UserList = ({ firms }) => {
           )
         )}
       </List>
+      <FlexWrapper justifyEnd>
+        <Link to="add-user">Lägg till ny användare</Link>
+      </FlexWrapper>
     </div>
   );
 };
