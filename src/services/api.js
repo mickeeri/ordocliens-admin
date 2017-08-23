@@ -3,7 +3,7 @@ import { getAuthToken } from '../utils/localStorage';
 
 export const BASE_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://ordocliens.herokuapp.com'
+    ? 'https://ordocliens-api.herokuapp.com'
     : 'http://localhost:3090';
 
 async function makeFetchRequest({
