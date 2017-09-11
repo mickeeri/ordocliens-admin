@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import UserForm from './UserForm';
 import FlexContainer from '../components/FlexContainer';
 import Card from '../components/Card';
-import { fetchFirms, createUser } from '../services/api';
+import { fetchFirms, createUser, fetchRoles } from '../services/api';
 import RedirectBackWrapper from '../components/RedirectBackWrapper';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ class UsersAdd extends Component {
 
   componentDidMount() {
     this.fetchFirms();
+    this.fetchRoles();
   }
 
   async fetchFirms() {
@@ -26,6 +27,19 @@ class UsersAdd extends Component {
     } catch (err) {
       this.setState({
         errorMessage: err.message || 'Ett fel uppstod, försök igen senare.',
+        isFetching: false,
+      });
+    }
+  }
+
+  async fetchRoles() {
+    this.setState({ isFetching: true });
+    try {
+      const roles = await fetchRoles();
+      this.setState({ isFetching: false, roles });
+    } catch (err) {
+      this.setState({
+        errorMessage: err.message || 'Ett fel uppstod, försök igen senare',
         isFetching: false,
       });
     }
@@ -45,17 +59,19 @@ class UsersAdd extends Component {
   }
 
   render() {
-    const { isFetching, errorMessage, isSubmitting, firms } = this.state;
+    const { isFetching, errorMessage, isSubmitting, firms, roles } = this.state;
     return (
       <FlexContainer>
         <Card showLoader={isFetching} loaderText="Laddar">
-          {firms.length &&
+          {firms.length && (
             <UserForm
               onSubmit={this.createUser.bind(this)}
               errorMessage={errorMessage}
               isSubmitting={isSubmitting}
               firms={firms}
-            />}
+              roles={roles}
+            />
+          )}
         </Card>
         <RedirectBackWrapper>
           <Link to="/">Tillbaka till listan</Link>

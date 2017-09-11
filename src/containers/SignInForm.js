@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func } from 'prop-types';
+import { func, bool } from 'prop-types';
 import InputGroup from '../components/forms/InputGroup';
 import Button from '../components/Button';
 import FormWrapper from '../components/forms/FormWrapper';
@@ -32,7 +32,7 @@ class SignInForm extends Component {
 
   render() {
     const { email, password } = this.state.fields;
-    const { errorMessage, submitting } = this.props;
+    const { errorMessage, isSubmitting } = this.props;
 
     return (
       <FormWrapper
@@ -60,22 +60,17 @@ class SignInForm extends Component {
           onChange={this.handleChange}
         />
 
-        {errorMessage &&
-          <Alert primary>
-            {errorMessage}
-          </Alert>}
+        {errorMessage && <Alert primary>{errorMessage}</Alert>}
 
         <Button success medium default type="submit">
-          {submitting
-            ? <span>
-                Loggar in
-                <MDSpinner
-                  className="spinner"
-                  size={18}
-                  singleColor="#01D48D"
-                />
-              </span>
-            : <span>Logga in</span>}
+          {isSubmitting ? (
+            <span>
+              Loggar in
+              <MDSpinner className="spinner" size={18} singleColor="#01D48D" />
+            </span>
+          ) : (
+            <span>Logga in</span>
+          )}
         </Button>
       </FormWrapper>
     );
@@ -84,6 +79,7 @@ class SignInForm extends Component {
 
 SignInForm.propTypes = {
   onSubmit: func.isRequired,
+  isSubmitting: bool.isRequired,
 };
 
 export default SignInForm;

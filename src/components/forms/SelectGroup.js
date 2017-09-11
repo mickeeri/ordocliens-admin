@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, arrayOf, string, number, func } from 'prop-types';
+import { shape, arrayOf, string, number, func, oneOfType } from 'prop-types';
 import styled from 'styled-components';
 import Label from './Label';
 
@@ -28,19 +28,18 @@ const SelectGroup = ({
 }) => {
   return (
     <Wrapper>
-      <Label htmlFor={name}>
-        {label}
-      </Label>
+      <Label htmlFor={name}>{label}</Label>
       <Select name={name} id={name} value={value} onChange={onChange}>
-        {defaultName &&
+        {defaultName && (
           <option value="0" disabled>
             {defaultName}
-          </option>}
-        {options.map(option =>
+          </option>
+        )}
+        {options.map(option => (
           <Option key={option.id} value={option.id}>
             {option.name}
           </Option>
-        )}
+        ))}
       </Select>
     </Wrapper>
   );
@@ -49,14 +48,14 @@ const SelectGroup = ({
 SelectGroup.propTypes = {
   name: string.isRequired,
   label: string,
-  value: number.isRequired,
+  value: oneOfType([string, number]).isRequired,
   onChange: func.isRequired,
   defaultName: string,
   options: arrayOf(
     shape({
-      id: number.isRequired,
+      id: oneOfType([string, number]).isRequired,
       name: string.isRequired,
-    }).isRequired
+    }).isRequired,
   ).isRequired,
 };
 

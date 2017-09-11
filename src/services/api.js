@@ -88,3 +88,10 @@ export async function signInUser(credentials) {
     authToken: null,
   });
 }
+
+export async function fetchRoles() {
+  return await makeFetchRequest({
+    path: 'roles',
+    entityName: 'roles',
+  });
+}

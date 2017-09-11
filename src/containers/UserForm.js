@@ -33,8 +33,14 @@ class UserForm extends Component {
   };
 
   render() {
-    const { firstName, lastName, email, firmId } = this.state.fields;
-    const { errorMessage, isSubmitting, firms } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      firmId,
+      role = 'user',
+    } = this.state.fields;
+    const { errorMessage, isSubmitting, firms, roles } = this.props;
 
     return (
       <FormWrapper className="UserForm" onSubmit={this.handleSubmit} novalidate>
@@ -47,6 +53,15 @@ class UserForm extends Component {
           value={parseInt(firmId, 10)}
           onChange={this.handleChange}
           defaultName="Välj firma"
+        />
+
+        <SelectGroup
+          name="role"
+          label="Behörighet"
+          options={roles}
+          value={role}
+          onChange={this.handleChange}
+          defaultValue="user"
         />
 
         <InputGroup
@@ -73,10 +88,7 @@ class UserForm extends Component {
           value={email}
         />
 
-        {errorMessage &&
-          <Alert>
-            {errorMessage}
-          </Alert>}
+        {errorMessage && <Alert>{errorMessage}</Alert>}
 
         <ButtonWithLoader
           success
