@@ -8,9 +8,10 @@ const justify = {
 
 const FlexContainer = styled.div`
   justify-content: ${styledProps(justify)};
+  align-items: baseline;
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  width: 1200px;
   margin: 0 auto;
 `;
 

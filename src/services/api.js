@@ -64,6 +64,15 @@ export async function createUser(body) {
   });
 }
 
+export async function createFirm(body) {
+  return await makeFetchRequest({
+    path: 'firms',
+    method: 'POST',
+    body,
+    entityName: 'firm',
+  });
+}
+
 export async function fetchFirms() {
   return await makeFetchRequest({
     path: 'firms',

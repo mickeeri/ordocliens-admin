@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Dashboard from './containers/Dashboard';
 import SignIn from './containers/SignIn';
 import UserDetails from './containers/UserDetails';
-import UsersAdd from './containers/UsersAdd';
+import AddUser from './containers/AddUser';
+import AddFirm from './containers/AddFirm';
 import {
   BrowserRouter as Router,
   Route,
@@ -20,30 +21,32 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        auth.isAuthenticated
-          ? <Component {...props} />
-          : <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: props.location },
-              }}
-            />}
+        auth.isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location },
+            }}
+          />
+        )}
     />
   );
 };
 
 const SignOutButton = withRouter(
   ({ history }) =>
-    auth.isAuthenticated
-      ? <Button
-          link
-          onClick={() => {
-            auth.signout(() => history.push('/'));
-          }}
-        >
-          Logga ut
-        </Button>
-      : null
+    auth.isAuthenticated ? (
+      <Button
+        link
+        onClick={() => {
+          auth.signout(() => history.push('/'));
+        }}
+      >
+        Logga ut
+      </Button>
+    ) : null,
 );
 
 const BrandLink = () => {
@@ -67,7 +70,8 @@ class App extends Component {
             <Main>
               <Route exact path="/login" component={SignIn} />
               <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute exact path="/add-user" component={UsersAdd} />
+              <PrivateRoute exact path="/add-user" component={AddUser} />
+              <PrivateRoute exact path="/add-firm" component={AddFirm} />
               <PrivateRoute path="/users/:id" component={UserDetails} />
             </Main>
           </div>

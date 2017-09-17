@@ -9,34 +9,35 @@ import {
 import { Link } from 'react-router-dom';
 import FlexWrapper from '../components/FlexWrapper';
 
+function getUserCount(firms) {
+  return firms.reduce((count, firm) => {
+    return count + firm.users.length;
+  }, 0);
+}
 const UserList = ({ firms }) => {
   return (
     <div className="UserList">
-      <h2>Användare</h2>
+      <h2>Användare ({getUserCount(firms)})</h2>
       <List>
         {firms.map(firm =>
-          firm.users.map(({ id, firstName, lastName, email }) =>
+          firm.users.map(({ id, firstName, lastName, email }) => (
             <ListItem key={id}>
               <ListItemHeader>
                 <h3>
                   {firstName} {lastName}
                 </h3>
-                <small>
-                  {firm.name}
-                </small>
+                <small>{firm.name}</small>
               </ListItemHeader>
               <ListItemContent>
                 <ul>
-                  <li>
-                    {email}
-                  </li>
+                  <li>{email}</li>
                 </ul>
                 <div>
                   <Link to={`/users/${id}`}>Mer info</Link>
                 </div>
               </ListItemContent>
             </ListItem>
-          )
+          )),
         )}
       </List>
       <FlexWrapper justifyEnd>
@@ -56,9 +57,9 @@ UserList.propTypes = {
           id: number,
           firstName: string,
           lastName: string,
-        })
+        }),
       ).isRequired,
-    })
+    }),
   ).isRequired,
 };
 

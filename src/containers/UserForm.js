@@ -5,6 +5,7 @@ import ButtonWithLoader from '../components/ButtonWithLoader';
 import FormWrapper from '../components/forms/FormWrapper';
 import Alert from '../components/Alert';
 import SelectGroup from '../components/forms/SelectGroup';
+import { handleChange, handleSubmit } from '../utils/formUtils';
 
 class UserForm extends Component {
   state = {
@@ -14,22 +15,6 @@ class UserForm extends Component {
       email: '',
       firmId: 0,
     },
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.onSubmit(this.state.fields);
-  };
-
-  handleChange = event => {
-    const { name, value } = event.target;
-    const fields = this.state.fields;
-    this.setState({
-      fields: {
-        ...fields,
-        [name]: value,
-      },
-    });
   };
 
   render() {
@@ -43,15 +28,17 @@ class UserForm extends Component {
     const { errorMessage, isSubmitting, firms, roles } = this.props;
 
     return (
-      <FormWrapper className="UserForm" onSubmit={this.handleSubmit} novalidate>
-        <h2>Lägg till ny användare</h2>
-
+      <FormWrapper
+        className="UserForm"
+        onSubmit={handleSubmit.bind(this)}
+        novalidate
+      >
         <SelectGroup
           name="firmId"
           label="Firma"
           options={firms}
           value={parseInt(firmId, 10)}
-          onChange={this.handleChange}
+          onChange={handleChange.bind(this)}
           defaultName="Välj firma"
         />
 
@@ -60,7 +47,7 @@ class UserForm extends Component {
           label="Behörighet"
           options={roles}
           value={role}
-          onChange={this.handleChange}
+          onChange={handleChange.bind(this)}
           defaultValue="user"
         />
 
@@ -68,7 +55,7 @@ class UserForm extends Component {
           name="firstName"
           placeholder="Ange förnamn"
           label="Förnamn"
-          onChange={this.handleChange}
+          onChange={handleChange.bind(this)}
           value={firstName}
         />
 
@@ -76,7 +63,7 @@ class UserForm extends Component {
           name="lastName"
           placeholder="Ange efternamn"
           label="Efternamn"
-          onChange={this.handleChange}
+          onChange={handleChange.bind(this)}
           value={lastName}
         />
 
@@ -84,7 +71,7 @@ class UserForm extends Component {
           name="email"
           placeholder="Ange e-post"
           label="E-post"
-          onChange={this.handleChange}
+          onChange={handleChange.bind(this)}
           value={email}
         />
 

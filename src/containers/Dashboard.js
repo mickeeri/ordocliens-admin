@@ -5,6 +5,7 @@ import FlexContainer from '../components/FlexContainer';
 import PageHeader from '../components/PageHeader';
 import Card from '../components/Card';
 import Alert from '../components/Alert';
+import FirmList from '../components/FirmList';
 
 export default class Dashboard extends Component {
   state = {
@@ -41,12 +42,15 @@ export default class Dashboard extends Component {
           <h1>Dashboard</h1>
         </PageHeader>
         <Card showLoader={isFetching} loaderText="Hämtar användare">
-          {errorMessage
-            ? <Alert tryAgainFunc={this.makeIntialRequest.bind(this)}>
-                {errorMessage}
-              </Alert>
-            : firms.length && <UserList firms={firms} />}
+          {errorMessage ? (
+            <Alert tryAgainFunc={this.makeIntialRequest.bind(this)}>
+              {errorMessage}
+            </Alert>
+          ) : (
+            firms.length && <UserList firms={firms} />
+          )}
         </Card>
+        <Card>{firms.length && <FirmList firms={firms} />}</Card>
       </FlexContainer>
     );
   }

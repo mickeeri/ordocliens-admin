@@ -5,8 +5,9 @@ import Card from '../components/Card';
 import { fetchFirms, createUser, fetchRoles } from '../services/api';
 import RedirectBackWrapper from '../components/RedirectBackWrapper';
 import { Link } from 'react-router-dom';
+import PageHeader from '../components/PageHeader';
 
-class UsersAdd extends Component {
+class AddUser extends Component {
   state = {
     firms: [],
     errorMessage: '',
@@ -61,7 +62,10 @@ class UsersAdd extends Component {
   render() {
     const { isFetching, errorMessage, isSubmitting, firms, roles } = this.state;
     return (
-      <FlexContainer>
+      <FlexContainer id="AddUser">
+        <PageHeader>
+          <h1>Lägg till användare</h1>
+        </PageHeader>
         <Card showLoader={isFetching} loaderText="Laddar">
           {firms.length && (
             <UserForm
@@ -81,4 +85,4 @@ class UsersAdd extends Component {
   }
 }
 
-export default UsersAdd;
+export default AddUser;
