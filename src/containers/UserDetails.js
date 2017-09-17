@@ -1,108 +1,45 @@
 import React, { Component } from 'react';
-import FlexContainer from '../components/FlexContainer';
-import Card from '../components/Card';
-import { fetchUser } from '../services/api';
-import Alert from '../components/Alert';
+import { fetchUser, fetchRoles, fetchFirms, editUser } from '../services/api';
 import { Link } from 'react-router-dom';
+import Alert from '../components/Alert';
+import Button from '../components/Button';
+import Card from '../components/Card';
+import FlexContainer from '../components/FlexContainer';
+import FlexWrapper from '../components/FlexWrapper';
 import RedirectBackWrapper from '../components/RedirectBackWrapper';
-
-import format from 'date-fns/format';
-import styled from 'styled-components';
-
-const UserInfoListHeader = styled.div`display: flex;`;
-const UserInfoList = styled.ul``;
-const ListItem = styled.li`margin: 10px 0;`;
-
-const UserInfo = ({
-  user: {
-    firstName,
-    lastName,
-    email,
-    createdAt,
-    role,
-    firm,
-    signInCount,
-    numberOfClients,
-    numberOfLawsuits,
-    lastSignInAt,
-    lastLawsuitCreatedAt,
-    lastClientCreatedAt,
-  },
-}) => {
-  return (
-    <div className="UserInfo">
-      <UserInfoListHeader>
-        <h2>
-          {firstName} {lastName}
-        </h2>
-      </UserInfoListHeader>
-      <UserInfoList>
-        <ListItem>
-          {firm.name}
-        </ListItem>
-        <ListItem>
-          {email}
-        </ListItem>
-        <ListItem>
-          <strong>Behörighet: </strong>
-          {role}
-        </ListItem>
-        <ListItem>
-          <strong>Registerad: </strong>
-          {format(createdAt, 'YYYY-MM-DD')}
-        </ListItem>
-        <ListItem>
-          <strong>Antal inloggningar: </strong>
-          {signInCount}
-        </ListItem>
-        <ListItem>
-          <strong>Senaste inloggningen: </strong>
-          {format(lastSignInAt, 'YYYY-MM-DD')}
-        </ListItem>
-
-        <ListItem>
-          <strong>Antal klienter: </strong>
-          {numberOfClients}
-        </ListItem>
-
-        <ListItem>
-          <strong>Antal ärenden: </strong>
-          {numberOfLawsuits}
-        </ListItem>
-
-        <ListItem>
-          <strong>Senaste klienten skapad: </strong>
-          {format(lastClientCreatedAt, 'YYYY-MM-DD')}
-        </ListItem>
-
-        <ListItem>
-          <strong>Senaste ärendet skapat: </strong>
-          {format(lastLawsuitCreatedAt, 'YYYY-MM-DD')}
-        </ListItem>
-      </UserInfoList>
-    </div>
-  );
-};
+import UserForm from './UserForm';
+import UserInfo from '../components/UserInfo';
 
 export default class UserDetails extends Component {
   state = {
     user: null,
     isFetching: false,
-    errorMessage: '',
+    fetchError: '',
+    submitError: '',
+    inEditMode: false,
+    firms: [],
+    roles: [],
+    isSubmitting: false,
   };
 
   componentDidMount() {
     this.makeIntialRequest();
   }
 
+  changeToEditMode() {
+    this.setState({ inEditMode: !this.state.inEditMode });
+  }
+
   async makeIntialRequest() {
     this.setState({ isFetching: true });
     try {
       const user = await fetchUser(this.props.match.params.id);
-      this.setState({ user, isFetching: false });
+      const firms = await fetchFirms();
+      const roles = await fetchRoles();
+      this.setState({ user, isFetching: false, firms, roles });
     } catch (err) {
       this.setState({
-        errorMessage:
+        fetchError:
           err.message ||
           'Kunde inte hämta användare på grund av ett okänt fel.',
         isFetching: false,
@@ -110,17 +47,61 @@ export default class UserDetails extends Component {
     }
   }
 
+  async editUser(updatedUser) {
+    this.setState({ isSubmitting: true });
+    try {
+      const user = await editUser(this.state.user.id, updatedUser);
+      this.setState({ isSubmitting: false, inEditMode: false, user });
+    } catch (err) {
+      this.setState({
+        submitError: err.message || 'Det gick inte att uppdatera användare',
+        isSubmitting: false,
+      });
+    }
+  }
+
   render() {
-    const { isFetching, user, errorMessage } = this.state;
+    const {
+      isFetching,
+      user,
+      fetchError,
+      submitError,
+      inEditMode,
+      firms,
+      roles,
+      isSubmitting,
+    } = this.state;
 
     return (
       <FlexContainer className="UserDetails">
         <Card showLoader={isFetching} loaderText="Hämtar användare">
-          {errorMessage
-            ? <Alert tryAgainFunc={this.makeIntialRequest.bind(this)}>
-                {errorMessage}
-              </Alert>
-            : user && <UserInfo user={user} />}
+          {fetchError ? (
+            <Alert tryAgainFunc={this.makeIntialRequest.bind(this)}>
+              {fetchError}
+            </Alert>
+          ) : (
+            user && (
+              <div>
+                {inEditMode ? (
+                  <UserForm
+                    onSubmit={this.editUser.bind(this)}
+                    errorMessage={submitError}
+                    firms={firms}
+                    roles={roles}
+                    isSubmitting={isSubmitting}
+                    user={user}
+                  />
+                ) : (
+                  <UserInfo user={user} />
+                )}
+              </div>
+            )
+          )}
+          <FlexWrapper justifyEnd>
+            <Button onClick={this.changeToEditMode.bind(this)}>
+              {inEditMode ? 'Avbryt' : 'Redigera'}
+            </Button>
+          </FlexWrapper>
         </Card>
         <RedirectBackWrapper>
           <Link to="/">Tillbaka till listan</Link>

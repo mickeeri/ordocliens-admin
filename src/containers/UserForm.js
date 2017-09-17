@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, bool, string, array } from 'prop-types';
+import { func, bool, string, array, object } from 'prop-types';
 import InputGroup from '../components/forms/InputGroup';
 import ButtonWithLoader from '../components/ButtonWithLoader';
 import FormWrapper from '../components/forms/FormWrapper';
@@ -8,24 +8,25 @@ import SelectGroup from '../components/forms/SelectGroup';
 import { handleChange, handleSubmit } from '../utils/formUtils';
 
 class UserForm extends Component {
-  state = {
-    fields: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      firmId: 0,
-    },
-  };
+  constructor(props) {
+    super(props);
+
+    const user = props.user;
+
+    this.state = {
+      fields: {
+        firstName: user ? user.firstName : '',
+        lastName: user ? user.lastName : '',
+        email: user ? user.email : '',
+        firmId: user ? user.firmId : 0,
+        role: user ? user.role : 'user',
+      },
+    };
+  }
 
   render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      firmId,
-      role = 'user',
-    } = this.state.fields;
-    const { errorMessage, isSubmitting, firms, roles } = this.props;
+    const { firstName, lastName, email, firmId, role } = this.state.fields;
+    const { errorMessage, isSubmitting, firms, roles, user } = this.props;
 
     return (
       <FormWrapper
@@ -40,6 +41,7 @@ class UserForm extends Component {
           value={parseInt(firmId, 10)}
           onChange={handleChange.bind(this)}
           defaultName="Välj firma"
+          disabled={!!user}
         />
 
         <SelectGroup
@@ -84,7 +86,7 @@ class UserForm extends Component {
           type="submit"
           showLoader={isSubmitting}
         >
-          Spara användare
+          {user ? 'Spara ändringar' : 'Spara användare'}
         </ButtonWithLoader>
       </FormWrapper>
     );
@@ -96,6 +98,8 @@ UserForm.propTypes = {
   isSubmitting: bool.isRequired,
   errorMessage: string,
   firms: array.isRequired,
+  roles: array.isRequired,
+  user: object,
 };
 
 export default UserForm;

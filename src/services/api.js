@@ -23,7 +23,8 @@ async function makeFetchRequest({
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: method === 'POST' ? JSON.stringify(decamelizeKeys(body)) : {},
+    body:
+      method === 'POST' || 'PUT' ? JSON.stringify(decamelizeKeys(body)) : {},
   });
 
   const responseBody = await response.json();
@@ -59,6 +60,15 @@ export async function createUser(body) {
   return await makeFetchRequest({
     path: 'users',
     method: 'POST',
+    body,
+    entityName: 'user',
+  });
+}
+
+export async function editUser(userId, body) {
+  return await makeFetchRequest({
+    path: `users/${userId}`,
+    method: 'PUT',
     body,
     entityName: 'user',
   });

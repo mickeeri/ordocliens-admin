@@ -18,4 +18,9 @@ describe('Dashboard', () => {
     signin();
     cy.get('.UserList');
   });
+
+  it('should show list of users', () => {
+    signin();
+    cy.get('.FirmList');
+  });
 });

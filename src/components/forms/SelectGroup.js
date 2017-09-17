@@ -25,11 +25,18 @@ const SelectGroup = ({
   value,
   defaultName,
   onChange,
+  disabled,
 }) => {
   return (
     <Wrapper>
       <Label htmlFor={name}>{label}</Label>
-      <Select name={name} id={name} value={value} onChange={onChange}>
+      <Select
+        name={name}
+        id={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      >
         {defaultName && (
           <option value="0" disabled>
             {defaultName}

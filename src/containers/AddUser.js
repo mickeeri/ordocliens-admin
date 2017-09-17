@@ -16,31 +16,18 @@ class AddUser extends Component {
   };
 
   componentDidMount() {
-    this.fetchFirms();
-    this.fetchRoles();
+    this.fetchFirmsAndRoles();
   }
 
-  async fetchFirms() {
+  async fetchFirmsAndRoles() {
     this.setState({ isFetching: true });
     try {
       const firms = await fetchFirms();
-      this.setState({ isFetching: false, firms });
-    } catch (err) {
-      this.setState({
-        errorMessage: err.message || 'Ett fel uppstod, försök igen senare.',
-        isFetching: false,
-      });
-    }
-  }
-
-  async fetchRoles() {
-    this.setState({ isFetching: true });
-    try {
       const roles = await fetchRoles();
-      this.setState({ isFetching: false, roles });
+      this.setState({ isFetching: false, firms, roles });
     } catch (err) {
       this.setState({
-        errorMessage: err.message || 'Ett fel uppstod, försök igen senare',
+        errorMessage: err.message || 'Ett fel uppstod',
         isFetching: false,
       });
     }

@@ -5,17 +5,19 @@ import MDSpinner from 'react-md-spinner';
 const ButtonWithLoader = ({
   showLoader,
   children,
-  color = '#01D48D',
+  color = '#fff',
   ...rest
 }) => {
   return (
     <Button {...rest}>
-      {showLoader
-        ? <span>
-            <MDSpinner className="spinner" size={18} singleColor={color} />
-            {children}
-          </span>
-        : children}
+      {showLoader ? (
+        <span>
+          <MDSpinner className="spinner" size={18} singleColor={color} />
+          {children}
+        </span>
+      ) : (
+        children
+      )}
     </Button>
   );
 };
